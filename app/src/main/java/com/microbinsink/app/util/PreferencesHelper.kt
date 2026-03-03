@@ -25,7 +25,7 @@ object PreferencesHelper {
     fun normalizeUrl(url: String): String {
         var normalized = url.trim()
         if (normalized.isBlank()) return DEFAULT_SERVER_URL
-        if (!normalized.startsWith("http://") && !normalized.startsWith("https://")) {
+        if (!normalized.contains("://")) {
             normalized = "https://$normalized"
         }
         return normalized.trimEnd('/')
