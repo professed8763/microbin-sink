@@ -1,0 +1,65 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ 'claude/**' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install SDK components
+      run: |
+        sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+
+    - name: Run unit tests
+      run: |
+        ./gradlew test --stacktrace 2>&1 | tee /tmp/test-output.txt || true
+        if grep -q "BUILD FAILED" /tmp/test-output.txt; then
+          grep -n "error:\|FAILED\|failure\|Exception in\|cannot find symbol\|incompatible types\|package .* does not exist\|class .* is public\|method does not override" /tmp/test-output.txt | head -30 > /tmp/filtered.txt 2>/dev/null || true
+          FILTERED=$(cat /tmp/filtered.txt | base64 -w 0)
+          echo "::error::FILTERED=${FILTERED}"
+          sed -n '/What went wrong/,/Try:/p' /tmp/test-output.txt | head -20 > /tmp/whatwrong.txt 2>/dev/null || true
+          WRONG=$(cat /tmp/whatwrong.txt | base64 -w 0)
+          echo "::error::WHATWRONG=${WRONG}"
+          exit 1
+        fi
+
+    - name: Run Android Lint
+      run: ./gradlew lintDebug --stacktrace
+      continue-on-error: true
+
+    - name: Upload lint report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: lint-report
+        path: app/build/reports/lint-results-debug.html
+
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug --stacktrace
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: microbin-sink-debug
+        path: app/build/outputs/apk/debug/app-debug.apk

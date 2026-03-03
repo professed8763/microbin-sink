@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Upload arrow icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,28L54,72M54,28L38,44M54,28L70,44"
+        android:strokeWidth="4"
+        android:strokeColor="#FFFFFF"
+        android:fillType="nonZero"/>
+    <path
+        android:pathData="M54,28L54,68"
+        android:strokeWidth="5"
+        android:strokeColor="#FFFFFF"/>
+    <path
+        android:pathData="M54,28L40,42"
+        android:strokeWidth="5"
+        android:strokeColor="#FFFFFF"/>
+    <path
+        android:pathData="M54,28L68,42"
+        android:strokeWidth="5"
+        android:strokeColor="#FFFFFF"/>
+    <path
+        android:pathData="M34,72L74,72"
+        android:strokeWidth="5"
+        android:strokeColor="#FFFFFF"/>
+</vector>

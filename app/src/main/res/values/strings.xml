@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MicroBin Sink</string>
+
+    <string name="pref_category_server">Server</string>
+    <string name="pref_server_url_title">MicroBin URL</string>
+    <string name="pref_uploader_password_title">Uploader Password</string>
+    <string name="pref_uploader_password_summary">Optional. Required by some MicroBin instances.</string>
+
+    <string name="pref_category_defaults">Upload Defaults</string>
+    <string name="pref_privacy_title">Privacy</string>
+    <string name="pref_expiration_title">Expiration</string>
+    <string name="pref_burn_after_title">Burn After</string>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/pref_category_server">
+
+        <EditTextPreference
+            android:key="server_url"
+            android:title="@string/pref_server_url_title"
+            android:defaultValue="https://pub.microbin.eu"
+            app:useSimpleSummaryProvider="true"
+            android:inputType="textUri" />
+
+        <EditTextPreference
+            android:key="uploader_password"
+            android:title="@string/pref_uploader_password_title"
+            android:summary="@string/pref_uploader_password_summary"
+            android:inputType="textPassword" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_defaults">
+
+        <ListPreference
+            android:key="privacy"
+            android:title="@string/pref_privacy_title"
+            android:entries="@array/privacy_entries"
+            android:entryValues="@array/privacy_values"
+            android:defaultValue="public"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:key="expiration"
+            android:title="@string/pref_expiration_title"
+            android:entries="@array/expiration_entries"
+            android:entryValues="@array/expiration_values"
+            android:defaultValue="1hour"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:key="burn_after"
+            android:title="@string/pref_burn_after_title"
+            android:entries="@array/burn_after_entries"
+            android:entryValues="@array/burn_after_values"
+            android:defaultValue="0"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
