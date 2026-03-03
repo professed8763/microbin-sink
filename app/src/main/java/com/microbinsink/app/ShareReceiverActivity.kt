@@ -1,11 +1,13 @@
 package com.microbinsink.app
 
+import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.microbinsink.app.upload.MicrobinUploader
 import com.microbinsink.app.upload.UploadConfig
 import com.microbinsink.app.upload.UploadResult
@@ -13,7 +15,7 @@ import com.microbinsink.app.util.PreferencesHelper
 import kotlinx.coroutines.*
 import java.io.File
 
-class ShareReceiverActivity : AppCompatActivity() {
+class ShareReceiverActivity : Activity() {
 
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private val uploader = MicrobinUploader()
@@ -122,7 +124,9 @@ class ShareReceiverActivity : AppCompatActivity() {
     private fun handleResult(result: UploadResult) {
         when (result) {
             is UploadResult.Success -> {
-                Toast.makeText(this, "Uploaded to MicroBin", Toast.LENGTH_SHORT).show()
+                val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.setPrimaryClip(ClipData.newPlainText("MicroBin URL", result.pasteUrl))
+                Toast.makeText(this, "Uploaded — URL copied", Toast.LENGTH_SHORT).show()
             }
             is UploadResult.Error -> {
                 Toast.makeText(this, "Upload failed: ${result.message}", Toast.LENGTH_LONG).show()
